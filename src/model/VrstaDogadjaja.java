@@ -18,6 +18,21 @@ public enum VrstaDogadjaja {
     KORPORATIVNA_ZURKA,
     OPEN_AIR_ZURKA,
     KONCERT_ZURKA,
-    FESTIVAL
+    FESTIVAL;
+       @Override
+    public String toString() {
+        // Pretvara nazive u čitkiji format
+        return switch (this) {
+            case KUCNA_ZURKA -> "Kućna žurka";
+            case KLUB_ZURKA -> "Klub žurka";
+            case MATURSKO_VECE -> "Maturko veče";
+            case TEMATSKA_ZURKA -> "Tematska žurka";
+            case KORPORATIVNA_ZURKA -> "Korporativna žurka";
+            case OPEN_AIR_ZURKA -> "Open air žurka";
+            case KONCERT_ZURKA -> "Koncert";
+            case FESTIVAL -> "Festival";
+        };
+    }
+    
     
 }
