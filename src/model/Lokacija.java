@@ -14,9 +14,20 @@ public class Lokacija {
     String adresa;
     int kapacitet;
 
+    public Lokacija(int LokacijaID, String naziv, String adresa, int kapacitet) {
+        this.LokacijaID = LokacijaID;
+        this.naziv = naziv;
+        this.adresa = adresa;
+        this.kapacitet = kapacitet;
+    }
+
+    public Lokacija() {
+        
+    }
+
     @Override
     public String toString() {
-        return "Lokacija{" + "naziv=" + naziv + '}';
+        return  adresa;
     }
 
     @Override

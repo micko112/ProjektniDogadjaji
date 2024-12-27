@@ -14,6 +14,14 @@ public class Gost {
     String prezime;
     int brojTelefona;
 
+    public Gost(int ID, String ime, String prezime, int brojTelefona) {
+        this.ID = ID;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.brojTelefona = brojTelefona;
+    }
+
+    
     @Override
     public String toString() {
         return "Gost: " + ime +  " " + prezime + " " + brojTelefona ;

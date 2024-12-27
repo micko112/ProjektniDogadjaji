@@ -4,17 +4,25 @@
  */
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.LocalTime;
 
 /**
  *
  * @author user
  */
-public class IzvodjackiRaspored {
+public class Lineup {
     int ID;
-    LocalDateTime vremeOd;
-    LocalDateTime vremeDo;
+    LocalTime vremeOd;
+    LocalTime vremeDo;
 
+    public Lineup(int ID, LocalTime vremeOd, LocalTime vremeDo) {
+        this.ID = ID;
+        this.vremeOd = vremeOd;
+        this.vremeDo = vremeDo;
+    }
+
+    
     @Override
     public String toString() {
         return "IzvodjackiRaspored " + "vremeOd" + vremeOd + ", vremeDo" + vremeDo;
@@ -37,7 +45,7 @@ public class IzvodjackiRaspored {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final IzvodjackiRaspored other = (IzvodjackiRaspored) obj;
+        final Lineup other = (Lineup) obj;
         return this.ID == other.ID;
     }
 
@@ -49,19 +57,19 @@ public class IzvodjackiRaspored {
         this.ID = ID;
     }
 
-    public LocalDateTime getVremeOd() {
+    public LocalTime getVremeOd() {
         return vremeOd;
     }
 
-    public void setVremeOd(LocalDateTime vremeOd) {
+    public void setVremeOd(LocalTime vremeOd) {
         this.vremeOd = vremeOd;
     }
 
-    public LocalDateTime getVremeDo() {
+    public LocalTime getVremeDo() {
         return vremeDo;
     }
 
-    public void setVremeDo(LocalDateTime vremeDo) {
+    public void setVremeDo(LocalTime vremeDo) {
         this.vremeDo = vremeDo;
     }
     
