@@ -33,18 +33,18 @@
                   <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTextFieldKapacitet" min="-2" pref="120" max="-2" attributes="0"/>
-                  <Component id="jTextFieldAdresa" min="-2" pref="120" max="-2" attributes="0"/>
-                  <Component id="jTextFieldNaziv" min="-2" pref="120" max="-2" attributes="0"/>
-                  <Component id="jTextFieldID" min="-2" pref="120" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jTextFieldNaziv" alignment="0" pref="207" max="32767" attributes="0"/>
+                  <Component id="jTextFieldAdresa" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jTextFieldKapacitet" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jTextFieldID" alignment="1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="157" max="32767" attributes="0"/>
+              <EmptySpace pref="70" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jButtonSave" min="-2" pref="86" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -71,9 +71,9 @@
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextFieldKapacitet" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace pref="99" max="32767" attributes="0"/>
               <Component id="jButtonSave" min="-2" pref="57" max="-2" attributes="0"/>
-              <EmptySpace pref="87" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

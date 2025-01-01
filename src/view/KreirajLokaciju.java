@@ -16,10 +16,42 @@ public class KreirajLokaciju extends javax.swing.JDialog {
     /**
      * Creates new form KreirajLokaciju
      */
+    private Lokacija lokacijaZaIzmenu;
+    
     Controller controller = Controller.getInstance();
-    public KreirajLokaciju(java.awt.Frame parent, boolean modal) {
+    private MainForm mf = new MainForm();
+    TabelaIzmeniLokaciju til = new TabelaIzmeniLokaciju(mf, true);
+      public KreirajLokaciju(java.awt.Dialog parent, boolean modal, Lokacija lokacijaZaIzmenu) {
         super(parent, modal);
         initComponents();
+        this.til = (TabelaIzmeniLokaciju) parent;
+     
+        if(lokacijaZaIzmenu != null){
+            this.lokacijaZaIzmenu = lokacijaZaIzmenu;
+                   System.out.println("nigga");
+            System.out.println(lokacijaZaIzmenu);
+            jTextFieldID.setText(String.valueOf(lokacijaZaIzmenu.getLokacijaID()));
+           
+            jTextFieldNaziv.setText(lokacijaZaIzmenu.getNaziv());
+            jTextFieldAdresa.setText(lokacijaZaIzmenu.getAdresa());
+            jTextFieldKapacitet.setText(Integer.toString(lokacijaZaIzmenu.getKapacitet()));
+             
+            
+        }
+      }
+    public KreirajLokaciju(java.awt.Frame parent, boolean modal, Lokacija lokacijaZaIzmenu) {
+        super(parent, modal);
+        initComponents();
+        this.mf= (MainForm) parent;
+        if(lokacijaZaIzmenu != null){
+            this.lokacijaZaIzmenu = lokacijaZaIzmenu;
+            jTextFieldID.setText(String.valueOf(lokacijaZaIzmenu.getLokacijaID()));
+            jTextFieldNaziv.setText(lokacijaZaIzmenu.getNaziv());
+            jTextFieldAdresa.setText(lokacijaZaIzmenu.getAdresa());
+            jTextFieldKapacitet.setText(Integer.toString(lokacijaZaIzmenu.getKapacitet()));
+            
+            
+        }
     }
 
     /**
@@ -78,16 +110,16 @@ public class KreirajLokaciju extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldKapacitet, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .addComponent(jTextFieldAdresa)
+                    .addComponent(jTextFieldKapacitet)
+                    .addComponent(jTextFieldID, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(70, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,9 +140,9 @@ public class KreirajLokaciju extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldKapacitet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -129,6 +161,7 @@ public class KreirajLokaciju extends javax.swing.JDialog {
         lokacija.setKapacitet(Integer.parseInt(jTextFieldKapacitet.getText()));
         
         controller.dodajLokacijuUBazu(lokacija);
+        this.dispose();
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     /**
@@ -161,7 +194,7 @@ public class KreirajLokaciju extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                KreirajLokaciju dialog = new KreirajLokaciju(new javax.swing.JFrame(), true);
+                KreirajLokaciju dialog = new KreirajLokaciju(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
