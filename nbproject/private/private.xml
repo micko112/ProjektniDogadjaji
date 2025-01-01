@@ -5,11 +5,12 @@
         <group>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/view/KreirajDogadjaj.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/Controller/Controller.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/model/Lokacija.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/model/VrstaDogadjaja.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/view/MainForm.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/Baza/Konekcija.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/view/TableModel.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/view/KreirajLokaciju.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/Baza/DBBroker.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/ProjektniDogadjaji/src/view/TabelaIzmeniLokaciju.java</file>
         </group>
     </open-files>
 </project-private>
