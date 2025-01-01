@@ -19,10 +19,15 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
      */
     Controller controller = Controller.getInstance();
      Lokacija lokacijaZaIzmenu;
-    public TabelaIzmeniLokaciju(java.awt.Frame parent, boolean modal) {
+    public TabelaIzmeniLokaciju(java.awt.Frame parent, boolean modal, String action) {
         super(parent, modal);
         initComponents();
-       
+        if("Izmeni".equals(action)){
+            jButtonObrisi.setVisible(false);
+        }
+        if("Obrisi".equals(action)){
+            jButtonIzmeni.setVisible(false);
+        }
         TableModel tm = new TableModel(controller.UcitajLokacijeIzBaze());
         jTable.setModel(tm);
        
@@ -40,6 +45,7 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
         jButtonIzmeni = new javax.swing.JButton();
+        jButtonObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -63,6 +69,13 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
             }
         });
 
+        jButtonObrisi.setText("Obrisi");
+        jButtonObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonObrisiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,15 +84,19 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52)
-                .addComponent(jButtonIzmeni, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonIzmeni, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                    .addComponent(jButtonObrisi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonIzmeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonIzmeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
@@ -96,8 +113,21 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
         Lokacija lokacijaZaIzmenu = controller.UcitajLokacijeIzBaze().get(selektovanRed);
         
         new KreirajLokaciju(this, true,lokacijaZaIzmenu).setVisible(true);
+        
         }
     }//GEN-LAST:event_jButtonIzmeniActionPerformed
+
+    private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
+            int selektovanaLokacija = jTable.getSelectedRow();
+            if(selektovanaLokacija == -1){
+                 JOptionPane.showMessageDialog(this, "nema selektovanog reda", "greska", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                Lokacija lok = controller.UcitajLokacijeIzBaze().get(selektovanaLokacija);
+                controller.obrisiLokaciju(lok);
+                osveziTabelu();
+            }
+    }//GEN-LAST:event_jButtonObrisiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,7 +160,7 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TabelaIzmeniLokaciju dialog = new TabelaIzmeniLokaciju(new javax.swing.JFrame(), true);
+                TabelaIzmeniLokaciju dialog = new TabelaIzmeniLokaciju(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -141,9 +171,16 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
             }
         });
     }
+         public void osveziTabelu(){
+             TableModel tm = new TableModel(controller.UcitajLokacijeIzBaze());
+             jTable.setModel(tm);
+             
+             
+         }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonIzmeni;
+    private javax.swing.JButton jButtonObrisi;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
