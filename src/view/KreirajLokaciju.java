@@ -20,11 +20,11 @@ public class KreirajLokaciju extends javax.swing.JDialog {
     
     Controller controller = Controller.getInstance();
     private MainForm mf = new MainForm();
-    TabelaIzmeniLokaciju til = new TabelaIzmeniLokaciju(mf, true);
+    TabelaLokacija til = new TabelaLokacija(mf, true, null);
       public KreirajLokaciju(java.awt.Dialog parent, boolean modal, Lokacija lokacijaZaIzmenu) {
         super(parent, modal);
         initComponents();
-        this.til = (TabelaIzmeniLokaciju) parent;
+        this.til = (TabelaLokacija) parent;
      
         if(lokacijaZaIzmenu != null){
             this.lokacijaZaIzmenu = lokacijaZaIzmenu;
@@ -39,6 +39,8 @@ public class KreirajLokaciju extends javax.swing.JDialog {
             
         }
       }
+      //ima dva konsturktora, dialog i frame parent
+      
     public KreirajLokaciju(java.awt.Frame parent, boolean modal, Lokacija lokacijaZaIzmenu) {
         super(parent, modal);
         initComponents();
@@ -154,13 +156,25 @@ public class KreirajLokaciju extends javax.swing.JDialog {
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         // TODO add your handling code here:
+        //ako je null savuj novu lokaciju, ako nije onda ubacis izmenjeno
         
+        if(lokacijaZaIzmenu ==null){
         Lokacija lokacija = new Lokacija();
         lokacija.setNaziv(jTextFieldNaziv.getText());
         lokacija.setAdresa(jTextFieldAdresa.getText());
         lokacija.setKapacitet(Integer.parseInt(jTextFieldKapacitet.getText()));
         
         controller.dodajLokacijuUBazu(lokacija);
+        }
+        else{
+             lokacijaZaIzmenu.setNaziv(jTextFieldNaziv.getText());
+        lokacijaZaIzmenu.setAdresa(jTextFieldAdresa.getText());
+        lokacijaZaIzmenu.setKapacitet(Integer.parseInt(jTextFieldKapacitet.getText()));
+        
+        controller.izmeniLokacijuUBazi(lokacijaZaIzmenu);
+        
+        }
+        til.osveziTabelu();
         this.dispose();
     }//GEN-LAST:event_jButtonSaveActionPerformed
 

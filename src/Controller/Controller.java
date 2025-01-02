@@ -4,7 +4,6 @@
  */
 package Controller;
 
-
 import Baza.DBBroker;
 import Baza.Konekcija;
 import java.util.ArrayList;
@@ -19,12 +18,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import view.TableModel;
+import java.lang.String;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author user
  */
 public class Controller {
+
     DBBroker dbb = new DBBroker();
     List<Dogadjaj> listaDogadjaja = new ArrayList<>();
     List<Gost> listaGostiju = new ArrayList<>();
@@ -33,35 +36,39 @@ public class Controller {
     List<Lokacija> listaLokacija = new ArrayList<>();
 
     private static Controller instance;
-    
-    public static  Controller getInstance(){
-        if(instance==null){
+
+    public static Controller getInstance() {
+        if (instance == null) {
             instance = new Controller();
-            
+
         }
         return instance;
     }
+
     public Controller() {
-        
-        
+
     }
 
-    public List<Lokacija> UcitajLokacijeIzBaze(){
-      return dbb.ucitajLokacijeIzBaze();
-        
+    public List<Lokacija> UcitajLokacijeIzBaze() {
+        this.listaLokacija = dbb.ucitajLokacijeIzBaze();
+        return this.listaLokacija;
+
     }
-     public List<Gost> UcitajGosteIzBaze(){
-      return dbb.UcitajGosteIzBaze();
-        
+
+    public List<Gost> UcitajGosteIzBaze() {
+        return dbb.UcitajGosteIzBaze();
+
     }
-      public List<Lineup> UcitajLineupIzBaze(){
-      return dbb.UcitajLineupIzBaze();
-        
+
+    public List<Lineup> UcitajLineupIzBaze() {
+        return dbb.UcitajLineupIzBaze();
+
     }
-      public void dodajUBazu(Dogadjaj dog) {
-      dbb.dodajUBazu(dog);
+
+    public void dodajUBazu(Dogadjaj dog) {
+        dbb.dodajUBazu(dog);
     }
-    
+
     public DBBroker getDbb() {
         return dbb;
     }
@@ -111,10 +118,108 @@ public class Controller {
     }
 
     public void dodajLokacijuUBazu(Lokacija lokacija) {
-      dbb.dodajLokacijuUBazu(lokacija);
+        dbb.dodajLokacijuUBazu(lokacija);
     }
 
-  
-    
-            
+    public void izmeniLokacijuUBazi(Lokacija lokacijaZaIzmenu) {
+        dbb.izmeniLokacijuUBazi(lokacijaZaIzmenu);
+
+    }
+
+    public void obrisiLokaciju(Lokacija lok) {
+        dbb.obrisiLokacijuIzBaze(lok);
+    }
+
+    public List<Lokacija> pretragaLista(String naziv, String adresa) {
+        List<Lokacija> rezultat = new ArrayList<>();
+
+        /*  if (naziv != null && adresa == null && kapacitet == 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (lokacija.getNaziv().contains(naziv)) {
+                    rezultat.add(lokacija);
+                }
+            }
+        }
+        if (naziv == null && adresa != null && kapacitet == 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (lokacija.getAdresa().contains(adresa)) {
+                    rezultat.add(lokacija);
+                }
+            }
+        }
+        if (naziv == null && adresa == null && kapacitet != 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (String.valueOf(lokacija.getKapacitet()).contains(String.valueOf(kapacitet))) {
+                    rezultat.add(lokacija);
+                }
+            }
+        }
+        if (naziv != null && adresa != null && kapacitet == 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (lokacija.getNaziv().contains(naziv) || lokacija.getAdresa().contains(adresa)) {
+                    rezultat.add(lokacija);
+                }
+            }
+        }
+        if (naziv != null && adresa == null && kapacitet != 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (lokacija.getNaziv().contains(naziv) || String.valueOf(lokacija.getKapacitet()).contains(String.valueOf(kapacitet))) {
+                    rezultat.add(lokacija);
+                }
+
+            }
+        }
+        if (naziv == null && adresa != null && kapacitet != 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (lokacija.getNaziv().contains(naziv) || String.valueOf(lokacija.getKapacitet()).contains(String.valueOf(kapacitet))) {
+                    rezultat.add(lokacija);
+                }
+
+            }
+        }
+        if (naziv == null && adresa != null && kapacitet != 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (lokacija.getAdresa().contains(adresa) || String.valueOf(lokacija.getKapacitet()).contains(String.valueOf(kapacitet))) {
+                    rezultat.add(lokacija);
+                }
+            }
+        }
+        if (naziv != null && adresa != null && kapacitet != 0) {
+            for (Lokacija lokacija : rezultat) {
+                if (lokacija.getNaziv().contains(naziv) || lokacija.getAdresa().contains(adresa) || String.valueOf(lokacija.getKapacitet()).contains(String.valueOf(kapacitet))) {
+                    rezultat.add(lokacija);
+                }
+
+            }
+        }*/
+        rezultat = listaLokacija.stream()
+                .filter(lokacija -> (naziv.toUpperCase() == null || naziv.isEmpty() || lokacija.getNaziv().toUpperCase().contains(naziv.toUpperCase())))
+                .filter(lokacija -> (adresa == null || adresa.isEmpty() || lokacija.getAdresa().toUpperCase().contains(adresa.toUpperCase())))
+                .collect(Collectors.toList());
+
+        return rezultat;
+    }
+
+    public void dodajGostaUBazu(Gost gost) {
+        dbb.dodajGostaUBazu(gost);
+    }
+
+    public void obrisiGosta(Gost gost) {
+        dbb.obrisiGostaIzBaze(gost);
+    }
+
+    public void IzmeniGostaUBazi(Gost gost) {
+        dbb.IzmeniGostaUBazi(gost);
+    }
+
+    public List<Gost> filtrirajListu(String ime, String prezime, String broj) {
+        List<Gost> filtrirana = UcitajGosteIzBaze();
+        filtrirana = filtrirana.stream()
+                .filter(gost -> ime == null || ime.isEmpty() || gost.getIme().toLowerCase().contains(ime.toLowerCase()))
+                .filter(gost -> prezime == null || prezime.isEmpty() || gost.getPrezime().toLowerCase().contains(prezime.toLowerCase()))
+                .filter(gost -> broj == null || broj.isEmpty() || String.valueOf(gost.getBrojTelefona()).contains(broj))
+                .collect(Collectors.toList());
+        return filtrirana;
+    }
+
 }

@@ -5,6 +5,8 @@
 package view;
 import view.TableModel;
 import Controller.Controller;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.Lokacija;
 import view.MainForm;
@@ -12,14 +14,15 @@ import view.MainForm;
  *
  * @author user
  */
-public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
+public class TabelaLokacija extends javax.swing.JDialog {
 
     /**
      * Creates new form TabelaIzmenaLokacije
      */
     Controller controller = Controller.getInstance();
      Lokacija lokacijaZaIzmenu;
-    public TabelaIzmeniLokaciju(java.awt.Frame parent, boolean modal, String action) {
+    public TabelaLokacija(java.awt.Frame parent, boolean modal, String action) {//action znaci da li hocemo izmeni ili obrisi, prilicno jednostavan nacin
+        
         super(parent, modal);
         initComponents();
         if("Izmeni".equals(action)){
@@ -28,9 +31,13 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
         if("Obrisi".equals(action)){
             jButtonIzmeni.setVisible(false);
         }
+        if("pretraga".equals(action)){
+            jButtonIzmeni.setVisible(false);
+            jButtonObrisi.setVisible(false);
+        }
         TableModel tm = new TableModel(controller.UcitajLokacijeIzBaze());
         jTable.setModel(tm);
-       
+        
     }
 
     /**
@@ -46,6 +53,11 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
         jTable = new javax.swing.JTable();
         jButtonIzmeni = new javax.swing.JButton();
         jButtonObrisi = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldNaziv = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldAdresa = new javax.swing.JTextField();
+        jButtonPretraga = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,28 +88,64 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Naziv: ");
+
+        jLabel2.setText("Adresa:");
+
+        jButtonPretraga.setText("Pretraga");
+        jButtonPretraga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPretragaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonIzmeni, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                    .addComponent(jButtonObrisi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonIzmeni, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                            .addComponent(jButtonObrisi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                            .addComponent(jTextFieldAdresa))
+                        .addGap(53, 53, 53)
+                        .addComponent(jButtonPretraga)))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButtonIzmeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextFieldAdresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButtonPretraga, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 304, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonIzmeni, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(17, 17, 17))
         );
 
@@ -129,6 +177,18 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
             }
     }//GEN-LAST:event_jButtonObrisiActionPerformed
 
+    private void jButtonPretragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretragaActionPerformed
+        String naziv = jTextFieldNaziv.getText();
+        String adresa = jTextFieldAdresa.getText();
+    
+        
+        List<Lokacija> filtriranaLokacija;
+        filtriranaLokacija = controller.pretragaLista(naziv, adresa);
+        TableModel tm = new TableModel(filtriranaLokacija);
+        jTable.setModel(tm);
+        
+    }//GEN-LAST:event_jButtonPretragaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -146,21 +206,23 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TabelaIzmeniLokaciju.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelaLokacija.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TabelaIzmeniLokaciju.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelaLokacija.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TabelaIzmeniLokaciju.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelaLokacija.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TabelaIzmeniLokaciju.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TabelaLokacija.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TabelaIzmeniLokaciju dialog = new TabelaIzmeniLokaciju(new javax.swing.JFrame(), true, null);
+                TabelaLokacija dialog = new TabelaLokacija(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -181,7 +243,12 @@ public class TabelaIzmeniLokaciju extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonIzmeni;
     private javax.swing.JButton jButtonObrisi;
+    private javax.swing.JButton jButtonPretraga;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
+    private javax.swing.JTextField jTextFieldAdresa;
+    private javax.swing.JTextField jTextFieldNaziv;
     // End of variables declaration//GEN-END:variables
 }

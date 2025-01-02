@@ -21,6 +21,12 @@ public class Gost {
         this.brojTelefona = brojTelefona;
     }
 
+    public Gost(String ime, String prezime, int brojTelefona) {
+          this.ime = ime;
+        this.prezime = prezime;
+        this.brojTelefona = brojTelefona;
+    }
+
     
     @Override
     public String toString() {

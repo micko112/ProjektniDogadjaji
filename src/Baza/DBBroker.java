@@ -19,6 +19,7 @@ import java.time.LocalTime;
 import model.Dogadjaj;
 import model.Gost;
 import model.Lineup;
+import view.TableModel;
 /**
  *
  * @author user
@@ -130,5 +131,90 @@ public class DBBroker {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    public void izmeniLokacijuUBazi(Lokacija lokacijaZaIzmenu) {
+        
+        try {
+            String upit = "update lokacije "
+                    + "set naziv = ?, adresa =?, kapacitet = ? "
+                    + "where lokacijaid =? ";
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setString(1, lokacijaZaIzmenu.getNaziv());
+            ps.setString(2, lokacijaZaIzmenu.getAdresa());
+            ps.setInt(3, lokacijaZaIzmenu.getKapacitet());
+            ps.setInt(4, lokacijaZaIzmenu.getLokacijaID());
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    public void obrisiLokacijuIzBaze(Lokacija lok) {
+        try {
+            String upit = "DELETE  FROM lokacije\n" +
+                    "	 WHERE  lokacijaID=?\n" +
+                    "	 ;";
+            
+            PreparedStatement ps= Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, lok.getLokacijaID());
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    public void dodajGostaUBazu(Gost gost) {
+        try {
+            String upit = "INSERT INTO gosti(ime,Prezime,Telefon)\n"
+                    + "VALUES(?,?,?); ";
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setString(1, gost.getIme());
+            ps.setString(2, gost.getPrezime());
+            ps.setInt(3, gost.getBrojTelefona());
+            
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    public void obrisiGostaIzBaze(Gost gost) {
+        try {
+            String upit = "DELETE FROM GOSTI\n" +
+                    "WHERE gostID=?;";
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, gost.getID());
+            ps.executeUpdate();
+            Konekcija.getInstance().getConnection().commit();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void IzmeniGostaUBazi(Gost gost) {
+        try {
+            String upit = "UPDATE gosti\n" +
+"	SET ime =? ,prezime = ?, Telefon = ?" +
+"	WHERE gostID=?;";
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setString(1, gost.getIme());
+            ps.setString(2, gost.getPrezime());
+            ps.setInt(3, gost.getBrojTelefona());
+            ps.setInt(4, gost.getID());
+            ps.executeUpdate();
+                Konekcija.getInstance().getConnection().commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
