@@ -18,6 +18,8 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        System.out.println("Ja sam nigga"
+                + "");
     }
 
     /**
