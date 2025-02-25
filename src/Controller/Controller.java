@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import view.TableModel;
 import java.lang.String;
 import java.util.stream.Collectors;
+import model.Nastup;
 
 /**
  *
@@ -44,7 +45,7 @@ public class Controller {
         }
         return instance;
     }
-
+    
     public Controller() {
 
     }
@@ -60,10 +61,7 @@ public class Controller {
 
     }
 
-    public List<Lineup> UcitajLineupIzBaze() {
-        return dbb.UcitajLineupIzBaze();
-
-    }
+ 
 
     public void dodajUBazu(Dogadjaj dog) {
         dbb.dodajUBazu(dog);
@@ -222,4 +220,55 @@ public class Controller {
         return filtrirana;
     }
 
-}
+    public void dodajIzvodjacaUBazu(Izvodjac izvodjac) {
+        dbb.dodajIzvodjacaUBazu(izvodjac);
+    }
+
+    
+    public List<Dogadjaj> ucitajDogadjajeIzBaze() {
+        return dbb.ucitajDogadjajeIzBaze();
+        
+    }
+
+    public List<Izvodjac> ucitajIzvodjaceIzBaze() {
+        return dbb.ucitajIzvodjaceIzBaze();
+    }
+
+
+
+    public int dodajLineupUBazu(Lineup lineup) {
+         return dbb.dodajLineupUBazu(lineup);
+    }
+
+    public void dodajNastupUBazu(Nastup nastup) {
+        dbb.dodajNastupUBazu(nastup);
+    }
+
+    
+
+    public List<Lineup> ucitajLineupIDizbaze() {
+          return dbb.ucitajLineupIDizbaze();
+    }
+
+  
+
+    public Lineup ucitajPoslednjiLineup() {
+         
+        return dbb.ucitajPoslednjiLineup();
+    }
+   
+
+    public List<Nastup> ucitajNastupIzBaze() {
+       return dbb.ucitajNastupeIzBaze();
+    }
+
+    
+    
+    
+    }
+
+    
+
+    
+
+

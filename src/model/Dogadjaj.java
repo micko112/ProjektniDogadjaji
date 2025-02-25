@@ -20,9 +20,20 @@ public class Dogadjaj {
     LocalDateTime vreme;
     VrstaDogadjaja vrsta;
 
+    public Dogadjaj() {
+    }
+
+    public Dogadjaj(int ID, String naziv, LocalDate datum, LocalDateTime vreme, VrstaDogadjaja vrsta) {
+        this.ID = ID;
+        this.naziv = naziv;
+        this.datum = datum;
+        this.vreme = vreme;
+        this.vrsta = vrsta;
+    }
+
     @Override
     public String toString() {
-        return "Dogadjaj{" + "naziv=" + naziv + '}';
+        return naziv ;
     }
 
     @Override

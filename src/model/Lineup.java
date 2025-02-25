@@ -15,13 +15,22 @@ public class Lineup {
     int ID;
     LocalTime vremeOd;
     LocalTime vremeDo;
+    int dogadjajID;
 
-    public Lineup(int ID, LocalTime vremeOd, LocalTime vremeDo) {
+    public Lineup(int ID, LocalTime vremeOd, LocalTime vremeDo, int dogadjajID) {
         this.ID = ID;
         this.vremeOd = vremeOd;
         this.vremeDo = vremeDo;
+        this.dogadjajID = dogadjajID;
     }
-
+   
+    
+  public Lineup( LocalTime vremeOd, LocalTime vremeDo, int dogadjajID) {
+        
+        this.vremeOd = vremeOd;
+        this.vremeDo = vremeDo;
+          this.dogadjajID = dogadjajID;
+    }
     
     @Override
     public String toString() {
@@ -71,6 +80,14 @@ public class Lineup {
 
     public void setVremeDo(LocalTime vremeDo) {
         this.vremeDo = vremeDo;
+    }
+
+    public int getDogadjajID() {
+        return dogadjajID;
+    }
+
+    public void setDogadjajID(int dogadjajID) {
+        this.dogadjajID = dogadjajID;
     }
     
     

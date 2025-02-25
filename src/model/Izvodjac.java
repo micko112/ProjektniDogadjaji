@@ -13,9 +13,19 @@ public class Izvodjac {
     String ime;
     ZanrMuzike zanr;
 
+    public Izvodjac(int ID, String ime, ZanrMuzike zanr) {
+        this.ID = ID;
+        this.ime = ime;
+        this.zanr = zanr;
+    }
+
+    public Izvodjac() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     @Override
     public String toString() {
-        return "izvodjac: "+ " " + ime + " " + zanr + '}';
+        return  ime ;
     }
 
     @Override
