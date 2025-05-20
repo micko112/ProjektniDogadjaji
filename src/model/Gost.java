@@ -12,16 +12,16 @@ public class Gost {
     int ID;
     String ime;
     String prezime;
-    int brojTelefona;
+    String brojTelefona ;
 
-    public Gost(int ID, String ime, String prezime, int brojTelefona) {
+    public Gost(int ID, String ime, String prezime, String brojTelefona) {
         this.ID = ID;
         this.ime = ime;
         this.prezime = prezime;
         this.brojTelefona = brojTelefona;
     }
 
-    public Gost(String ime, String prezime, int brojTelefona) {
+    public Gost(String ime, String prezime, String brojTelefona) {
           this.ime = ime;
         this.prezime = prezime;
         this.brojTelefona = brojTelefona;
@@ -78,11 +78,11 @@ public class Gost {
         this.prezime = prezime;
     }
 
-    public int getBrojTelefona() {
+    public String getBrojTelefona() {
         return brojTelefona;
     }
 
-    public void setBrojTelefona(int brojTelefona) {
+    public void setBrojTelefona(String brojTelefona) {
         this.brojTelefona = brojTelefona;
     }
     

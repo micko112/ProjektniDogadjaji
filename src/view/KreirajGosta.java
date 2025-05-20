@@ -157,7 +157,7 @@ public class KreirajGosta extends javax.swing.JDialog {
 
         String ime = jTextFieldIme.getText();
         String prezime = jTextFieldPrezime.getText();
-        int brojTelefona = Integer.parseInt(jTextFieldTelefon.getText());
+        String brojTelefona = jTextFieldTelefon.getText();
 
         if (jButtonDodaj.getText().equalsIgnoreCase("dodaj")) {
 

@@ -164,7 +164,7 @@ public class DBBroker {
                 int id = rs.getInt("gostID");
                 String ime = rs.getString("ime");
                 String prezime = rs.getString("prezime");
-                int telefon = rs.getInt("telefon");
+                String telefon = rs.getString("telefon");
                 Gost gost = new Gost(id, ime, prezime, telefon);
                 gosti.add(gost);
             }
@@ -182,7 +182,7 @@ public class DBBroker {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
             ps.setString(1, gost.getIme());
             ps.setString(2, gost.getPrezime());
-            ps.setInt(3, gost.getBrojTelefona());
+            ps.setString(3, gost.getBrojTelefona());
 
             ps.executeUpdate();
             Konekcija.getInstance().getConnection().commit();
@@ -214,7 +214,7 @@ public class DBBroker {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
             ps.setString(1, gost.getIme());
             ps.setString(2, gost.getPrezime());
-            ps.setInt(3, gost.getBrojTelefona());
+            ps.setString(3, gost.getBrojTelefona());
             ps.setInt(4, gost.getID());
             ps.executeUpdate();
             Konekcija.getInstance().getConnection().commit();
