@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package so.dogadjaj;
+package so.angazman;
 
+import so.dogadjaj.*;
 import so.gost.*;
 import dbb.DBBroker;
+import domain.Angazman;
 import domain.Dogadjaj;
 import domain.Gost;
 import domain.OpstiDomenskiObjekat;
@@ -16,27 +18,27 @@ import so.OpstaSistemskaOperacija;
  *
  * @author user
  */
-public class SOVratiListuDogadjaja extends OpstaSistemskaOperacija {
+public class SOVratiListuAngazmana extends OpstaSistemskaOperacija {
 
-    ArrayList<Dogadjaj> list;
+    ArrayList<Angazman> list;
 
     @Override
     protected void validate(OpstiDomenskiObjekat odo) throws Exception {
         if (!(odo instanceof Dogadjaj)) {
-            throw new Exception("Prosledjeni objekat nije instanca klase Dogadjaj!");
+            throw new Exception("Prosledjeni objekat nije instanca klase Angazman!");
         }
     }
 
     @Override
     protected void execute(OpstiDomenskiObjekat odo) throws Exception {
-        list = (ArrayList< Dogadjaj>) (ArrayList< ?>) DBBroker.getInstance().select(odo);
+        list = (ArrayList< Angazman>) (ArrayList< ?>) DBBroker.getInstance().select(odo);
     }
     
-    public ArrayList<Dogadjaj> getList() {
+    public ArrayList<Angazman> getList() {
         return list;
     }
     
-    public void setList(ArrayList<Dogadjaj> list) {
+    public void setList(ArrayList<Angazman> list) {
         this.list = list;
     }
 

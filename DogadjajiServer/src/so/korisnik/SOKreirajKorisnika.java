@@ -2,42 +2,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package so.dogadjaj;
+package so.korisnik;
 
 import so.gost.*;
 import dbb.DBBroker;
-import domain.Dogadjaj;
 import domain.Gost;
 import domain.OpstiDomenskiObjekat;
-import java.util.ArrayList;
 import so.OpstaSistemskaOperacija;
 
 /**
  *
  * @author user
  */
-public class SOVratiListuDogadjaja extends OpstaSistemskaOperacija {
-
-    ArrayList<Dogadjaj> list;
+public class SOKreirajKorisnika extends OpstaSistemskaOperacija{
 
     @Override
     protected void validate(OpstiDomenskiObjekat odo) throws Exception {
-        if (!(odo instanceof Dogadjaj)) {
-            throw new Exception("Prosledjeni objekat nije instanca klase Dogadjaj!");
+        if(!(odo instanceof Gost)){
+            throw new Exception ("Prosledjeni objekat nije instanca klase Gost!");
         }
     }
 
     @Override
     protected void execute(OpstiDomenskiObjekat odo) throws Exception {
-        list = (ArrayList< Dogadjaj>) (ArrayList< ?>) DBBroker.getInstance().select(odo);
+        DBBroker.getInstance().insert(odo);
     }
-    
-    public ArrayList<Dogadjaj> getList() {
-        return list;
-    }
-    
-    public void setList(ArrayList<Dogadjaj> list) {
-        this.list = list;
-    }
+
+
+
 
 }

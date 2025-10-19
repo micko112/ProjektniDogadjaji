@@ -38,13 +38,13 @@ public class Dogadjaj extends OpstiDomenskiObjekat{
         this.korisnik = korisnik;
        
     }
-    public Dogadjaj( String naziv, LocalDateTime datumVreme, VrstaDogadjaja vrstaDogadjaja, Lokacija lokacija, Korisnik korisnik, ArrayList<Angazman> aganzmani) {
+    public Dogadjaj( String naziv, LocalDateTime datumVreme, VrstaDogadjaja vrstaDogadjaja, Lokacija lokacija, Korisnik korisnik, ArrayList<Angazman> agazmani) {
         this.naziv = naziv;
         this.datumVreme = datumVreme;
         this.vrstaDogadjaja = vrstaDogadjaja;
         this.lokacija = lokacija;
         this.korisnik = korisnik;
-        this.angazmani = aganzmani;
+        this.angazmani = agazmani;
     }
         public Dogadjaj( String naziv, LocalDateTime datumVreme, VrstaDogadjaja vrstaDogadjaja, Lokacija lokacija, Korisnik korisnik) {
         this.naziv = naziv;
@@ -183,7 +183,7 @@ public class Dogadjaj extends OpstiDomenskiObjekat{
 
     @Override
     public String toString() {
-        return "Dogadjaj{" + "dogadjajId=" + dogadjajId + ", naziv=" + naziv + ", datumVreme=" + datumVreme + ", vrstaDogadjaja=" + vrstaDogadjaja + ", lokacija=" + lokacija + ", korisnik=" + korisnik + ", aganzmani=" + angazmani + '}';
+        return "Dogadjaj{" + "dogadjajId=" + dogadjajId + ", naziv=" + naziv + ", datumVreme=" + datumVreme + ", vrstaDogadjaja=" + vrstaDogadjaja + ", lokacija=" + lokacija + ", korisnik=" + korisnik + ", angazmani=" + angazmani + '}';
     }
 
   

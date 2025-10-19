@@ -12,6 +12,11 @@ import domain.Korisnik;
 import domain.Lokacija;
 import domain.Potvrda;
 import java.util.ArrayList;
+import so.angazman.SOVratiListuAngazmana;
+import so.dogadjaj.SOIzmeniDogadjaj;
+import so.dogadjaj.SOKreirajDogadjaj;
+import so.dogadjaj.SOObrisiDogadjaj;
+import so.dogadjaj.SOVratiListuDogadjaja;
 import so.gost.SOIzmeniGosta;
 import so.gost.SOKreirajGosta;
 import so.gost.SOObrisiGosta;
@@ -20,6 +25,8 @@ import so.izvodjac.SOKreirajIzvodjaca;
 import so.izvodjac.SOVratiListuIzvodjaca;
 import so.korisnik.SOPrijaviKorisnika;
 import so.lokacija.SOVratiListuLokacija;
+import so.potvrda.SOVratiListuPotvrda;
+import validator.PasswordHash;
 
 /**
  *
@@ -39,45 +46,39 @@ public class SController {
 
     // --- Korisnik operacije ---
     public Korisnik login(Korisnik korisnik) throws Exception {
-        // SOLogin će biti specijalna operacija koja ne nasleđuje OpstaSO
-        // jer ima drugačiji tok (provera heša, itd.)
+
         SOPrijaviKorisnika so = new SOPrijaviKorisnika();
-        so.execute(korisnik);
+        String hash = PasswordHash.hashPassword(korisnik.getLozinka());
+        korisnik.setLozinka(hash);
+        so.templateExecute(korisnik);
         return so.getUlogovaniKorisnik();
     }
 
     // --- Dogadjaj operacije ---
     public void kreirajDogadjaj(Dogadjaj dogadjaj) throws Exception {
-        // Kreiranje događaja je transakcija, pa će SO biti složenija
         (new SOKreirajDogadjaj()).templateExecute(dogadjaj);
     }
     
-    public void promeniDogadjaj(Dogadjaj dogadjaj) throws Exception {
-        (new SOPromeniDogadjaj()).templateExecute(dogadjaj);
+    public void izmeniDogadjaj(Dogadjaj dogadjaj) throws Exception {
+        (new SOIzmeniDogadjaj()).templateExecute(dogadjaj);
     }
     
     public void obrisiDogadjaj(Dogadjaj dogadjaj) throws Exception {
         (new SOObrisiDogadjaj()).templateExecute(dogadjaj);
     }
 
-    public ArrayList<Dogadjaj> vratiSveDogadjaje() throws Exception {
-        SOVratiSveDogadjaje so = new SOVratiSveDogadjaje();
-        so.templateExecute(new Dogadjaj()); // Šaljemo prazan objekat kao filter
-        return so.getLista();
+    public ArrayList<Dogadjaj> vratiListuDogadjaja() throws Exception {
+        SOVratiListuDogadjaja so = new SOVratiListuDogadjaja();
+        so.templateExecute(new Dogadjaj()); 
+        return so.getList();
     }
     
-    public ArrayList<Dogadjaj> pronadjiDogadjaje(Dogadjaj kriterijum) throws Exception {
-        SOPronadjiDogadjaje so = new SOPronadjiDogadjaje();
-        so.templateExecute(kriterijum);
-        return so.getLista();
-    }
-
     // --- Gost operacije ---
     public void kreirajGosta(Gost gost) throws Exception {
         (new SOKreirajGosta()).templateExecute(gost);
     }
     
-    public void promeniGosta(Gost gost) throws Exception {
+    public void izmeniGosta(Gost gost) throws Exception {
         (new SOIzmeniGosta()).templateExecute(gost);
     }
 
@@ -85,7 +86,7 @@ public class SController {
         (new SOObrisiGosta()).templateExecute(gost);
     }
     
-    public ArrayList<Gost> vratiSveGoste() throws Exception {
+    public ArrayList<Gost> vratiListuGostiju() throws Exception {
         SOVratiListuGostiju so = new SOVratiListuGostiju();
         so.templateExecute(new Gost());
         return so.getList();
@@ -96,14 +97,14 @@ public class SController {
         (new SOKreirajIzvodjaca()).templateExecute(izvodjac);
     }
 
-    public ArrayList<Izvodjac> vratiSveIzvodjace() throws Exception {
+    public ArrayList<Izvodjac> vratiListuIzvodjaca() throws Exception {
         SOVratiListuIzvodjaca so = new SOVratiListuIzvodjaca();
         so.templateExecute(new Izvodjac());
         return so.getList();
     }
 
     // --- Lokacija operacije ---
-    public ArrayList<Lokacija> vratiSveLokacije() throws Exception {
+    public ArrayList<Lokacija> vratiListuLokacija() throws Exception {
         SOVratiListuLokacija so = new SOVratiListuLokacija();
         so.templateExecute(new Lokacija());
         return so.getList();
@@ -111,19 +112,19 @@ public class SController {
 
     // --- Specifične operacije za liste (Angazman, Potvrda) ---
     public ArrayList<Angazman> vratiAngazmaneZaDogadjaj(Dogadjaj dogadjaj) throws Exception {
-        SOVratiAngazmaneZaDogadjaj so = new SOVratiAngazmaneZaDogadjaj();
-        // Pravimo šablon za pretragu
-        Angazman kriterijum = new Angazman();
-        kriterijum.setDogadjaj(dogadjaj);
-        so.templateExecute(kriterijum);
-        return so.getLista();
+        SOVratiListuAngazmana so = new SOVratiListuAngazmana();
+
+        Angazman angazman = new Angazman();
+        angazman.setDogadjaj(dogadjaj);
+        so.templateExecute(angazman);
+        return so.getList();
     }
     
     public ArrayList<Potvrda> vratiPotvrdeZaDogadjaj(Dogadjaj dogadjaj) throws Exception {
-        SOVratiPotvrdeZaDogadjaj so = new SOVratiPotvrdeZaDogadjaj();
-        Potvrda kriterijum = new Potvrda();
-        kriterijum.setDogadjaj(dogadjaj);
-        so.templateExecute(kriterijum);
-        return so.getLista();
+        SOVratiListuPotvrda so = new SOVratiListuPotvrda();
+        Potvrda potvrda = new Potvrda();
+        potvrda.setDogadjaj(dogadjaj);
+        so.templateExecute(potvrda);
+        return so.getList();
     }
 }

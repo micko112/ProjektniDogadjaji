@@ -86,13 +86,13 @@ public class ClientHandler extends Thread {
                     SController.getInstance().kreirajDogadjaj((domain.Dogadjaj) request.getArgument());
                     break;
                 case PROMENI_DOGADJAJ:
-                    SController.getInstance().promeniDogadjaj((domain.Dogadjaj) request.getArgument());
+                    SController.getInstance().izmeniDogadjaj((domain.Dogadjaj) request.getArgument());
                     break;
                 case OBRISI_DOGADJAJ:
                     SController.getInstance().obrisiDogadjaj((domain.Dogadjaj) request.getArgument());
                     break;
                 case VRATI_SVE_DOGADJAJE:
-                    response.setResult((SController.getInstance().vratiSveDogadjaje()));
+                    response.setResult((SController.getInstance().vratiListuDogadjaja()));
                     break;
                 case PRONADJI_DOGADJAJE:
                     response.setResult((SController.getInstance().pronadjiDogadjaje((domain.Dogadjaj) request.getArgument())));
@@ -103,13 +103,13 @@ public class ClientHandler extends Thread {
                     SController.getInstance().kreirajGosta((domain.Gost) request.getArgument());
                     break;
                 case PROMENI_GOSTA:
-                    SController.getInstance().promeniGosta((domain.Gost) request.getArgument());
+                    SController.getInstance().izmeniGosta((domain.Gost) request.getArgument());
                     break;
                 case OBRISI_GOSTA:
                     SController.getInstance().obrisiGosta((domain.Gost) request.getArgument());
                     break;
                 case VRATI_SVE_GOSTE:
-                    response.setResult((SController.getInstance().vratiSveGoste()));
+                    response.setResult((SController.getInstance().vratiListuGostiju()));
                     break;
                 
                 // --- Izvodjac ---
@@ -117,7 +117,7 @@ public class ClientHandler extends Thread {
                 
                 // --- Lokacija ---
                 case VRATI_SVE_LOKACIJE:
-                    response.setResult((SController.getInstance().vratiSveLokacije()));
+                    response.setResult((SController.getInstance().vratiListuLokacija()));
                     break;
                 
                 // --- Liste za Dogadjaj ---
