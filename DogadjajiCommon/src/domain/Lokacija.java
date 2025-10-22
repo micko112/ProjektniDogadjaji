@@ -86,7 +86,7 @@ public class Lokacija extends OpstiDomenskiObjekat{
 
     @Override
     public String toString() {
-        return "Lokacija{" + "lokacijaId=" + lokacijaId + ", naziv=" + naziv + ", adresa=" + adresa + ", kapacitet=" + kapacitet + '}';
+        return naziv;
     }
 
     @Override

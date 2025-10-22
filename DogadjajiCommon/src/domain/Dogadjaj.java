@@ -26,7 +26,7 @@ public class Dogadjaj extends OpstiDomenskiObjekat{
     Lokacija lokacija;
     Korisnik korisnik;
     ArrayList<Angazman> angazmani;
-    
+    ArrayList<Potvrda> potvrde;
     public Dogadjaj() {
     }
     public Dogadjaj(int dogadjajId, String naziv, LocalDateTime datumVreme, VrstaDogadjaja vrstaDogadjaja, Lokacija lokacija, Korisnik korisnik) {
@@ -54,9 +54,6 @@ public class Dogadjaj extends OpstiDomenskiObjekat{
         this.korisnik = korisnik;
     }
     
-
-    
-    
     @Override
     public String nazivTabele() {
         return "dogadjaj";
@@ -69,8 +66,8 @@ public class Dogadjaj extends OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-                return " JOIN lokacija l ON (d.lokacijaid = l.lokacijaid)"
-                    + " JOIN korisnik k ON (d.korisnikid = k.korisnikid)";
+                return " JOIN lokacija l ON (d.lokacijaId = l.lokacijaId)"
+                    + " JOIN korisnik k ON (d.korisnikId = k.korisnikId)";
     }
 
     @Override
@@ -185,11 +182,6 @@ public class Dogadjaj extends OpstiDomenskiObjekat{
     public String toString() {
         return "Dogadjaj{" + "dogadjajId=" + dogadjajId + ", naziv=" + naziv + ", datumVreme=" + datumVreme + ", vrstaDogadjaja=" + vrstaDogadjaja + ", lokacija=" + lokacija + ", korisnik=" + korisnik + ", angazmani=" + angazmani + '}';
     }
-
-  
-
-   
-
     public Korisnik getKorisnik() {
         return korisnik;
     }
@@ -237,9 +229,11 @@ public class Dogadjaj extends OpstiDomenskiObjekat{
         return Objects.equals(this.angazmani, other.angazmani);
     }
 
-    
+    public ArrayList<Potvrda> getPotvrde() {
+        return potvrde;
+    }
 
-
-    
-    
+    public void setPotvrde(ArrayList<Potvrda> potvrde) {
+        this.potvrde = potvrde;
+    }
 }

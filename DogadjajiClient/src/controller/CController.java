@@ -63,14 +63,27 @@ public class CController {
     public void logout(Korisnik korisnik) throws Exception {
         sendRequest(Operation.LOGOUT, korisnik);
     }
+    public void kreirajKorisnika(Korisnik korisnik) throws Exception {
+        sendRequest(Operation.KREIRAJ_KORISNIKA, korisnik);
+    }
+
+    public void promeniKorisnika(Korisnik korisnik) throws Exception {
+        sendRequest(Operation.IZMENI_KORISNIKA, korisnik);
+    }
+    public ArrayList<Korisnik> vratiSveKorisnike() throws Exception {
+        return (ArrayList<Korisnik>) sendRequest(Operation.VRATI_SVE_KORISNIKE, null);
+    }
+    public void obrisiKorisnika(Korisnik korisnik) throws Exception {
+        sendRequest(Operation.OBRISI_KORISNIKA, korisnik);
+    }
 
     // --- Dogadjaj  ---
     public void kreirajDogadjaj(Dogadjaj dogadjaj) throws Exception {
         sendRequest(Operation.KREIRAJ_DOGADJAJ, dogadjaj);
     }
 
-    public void promeniDogadjaj(Dogadjaj dogadjaj) throws Exception {
-        sendRequest(Operation.PROMENI_DOGADJAJ, dogadjaj);
+    public void izmeniDogadjaj(Dogadjaj dogadjaj) throws Exception {
+        sendRequest(Operation.IZMENI_DOGADJAJ, dogadjaj);
     }
 
     public void obrisiDogadjaj(Dogadjaj dogadjaj) throws Exception {
@@ -90,8 +103,8 @@ public class CController {
         sendRequest(Operation.KREIRAJ_GOSTA, gost);
     }
     
-    public void promeniGosta(Gost gost) throws Exception {
-        sendRequest(Operation.PROMENI_GOSTA, gost);
+    public void izmeniGosta(Gost gost) throws Exception {
+        sendRequest(Operation.IZMENI_GOSTA, gost);
     }
     
     public void obrisiGosta(Gost gost) throws Exception {
@@ -111,8 +124,8 @@ public class CController {
         sendRequest(Operation.KREIRAJ_IZVODJACA, izvodjac);
     }
 
-    public void promeniIzvodjaca(Izvodjac izvodjac) throws Exception {
-        sendRequest(Operation.PROMENI_IZVODJACA, izvodjac);
+    public void izmeniIzvodjaca(Izvodjac izvodjac) throws Exception {
+        sendRequest(Operation.IZMENI_IZVODJACA, izvodjac);
     }
 
     public void obrisiIzvodjaca(Izvodjac izvodjac) throws Exception {
@@ -132,8 +145,8 @@ public class CController {
         sendRequest(Operation.KREIRAJ_LOKACIJU, lokacija);
     }
     
-    public void promeniLokaciju(Lokacija lokacija) throws Exception {
-        sendRequest(Operation.PROMENI_LOKACIJU, lokacija);
+    public void izmeniLokaciju(Lokacija lokacija) throws Exception {
+        sendRequest(Operation.IZMENI_LOKACIJU, lokacija);
     }
     
     public void obrisiLokaciju(Lokacija lokacija) throws Exception {
@@ -149,13 +162,17 @@ public class CController {
     }
     
     // --- Angazman i Potvrda operacije ---
-    // Ove operacije su specifične jer obično vraćaju liste vezane za jedan događaj.
     public ArrayList<Angazman> vratiAngazmaneZaDogadjaj(Dogadjaj dogadjaj) throws Exception {
-        return (ArrayList<Angazman>) sendRequest(Operation.VRATI_ANGAZMANE_ZA_DOGADJAJ, dogadjaj);
+        Angazman angazmanFilter = new Angazman();
+    angazmanFilter.setDogadjaj(dogadjaj);
+    return (ArrayList<Angazman>) sendRequest(Operation.VRATI_ANGAZMANE_ZA_DOGADJAJ, angazmanFilter);
+        //return (ArrayList<Angazman>) sendRequest(Operation.VRATI_ANGAZMANE_ZA_DOGADJAJ, dogadjaj);
     }
-    
     public ArrayList<Potvrda> vratiPotvrdeZaDogadjaj(Dogadjaj dogadjaj) throws Exception {
-        return (ArrayList<Potvrda>) sendRequest(Operation.VRATI_POTVRDE_ZA_DOGADJAJ, dogadjaj);
+        Potvrda potvrdaFilter = new Potvrda();    
+    potvrdaFilter.setDogadjaj(dogadjaj);   
+    return (ArrayList<Potvrda>) sendRequest(Operation.VRATI_POTVRDE_ZA_DOGADJAJ, potvrdaFilter);
+        //return (ArrayList<Potvrda>) sendRequest(Operation.VRATI_POTVRDE_ZA_DOGADJAJ, dogadjaj);
     }
 
 

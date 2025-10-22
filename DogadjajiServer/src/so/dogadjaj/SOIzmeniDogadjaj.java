@@ -10,6 +10,8 @@ import domain.Angazman;
 import domain.Dogadjaj;
 
 import domain.OpstiDomenskiObjekat;
+import domain.Potvrda;
+import java.time.LocalDateTime;
 import so.OpstaSistemskaOperacija;
 
 /**
@@ -31,13 +33,32 @@ public class SOIzmeniDogadjaj extends OpstaSistemskaOperacija{
 
     @Override
     protected void execute(OpstiDomenskiObjekat odo) throws Exception {
-        DBBroker.getInstance().update(odo);
-          Dogadjaj d = (Dogadjaj) odo;
-        DBBroker.getInstance().delete(d.getAngazmani().get(0));
+         Dogadjaj dogadjaj = (Dogadjaj) odo;
 
-        for (Angazman a : d.getAngazmani()) {
-            DBBroker.getInstance().insert(a);
+    DBBroker.getInstance().update(dogadjaj);
+    DBBroker.getInstance().obrisiSveAngazmaneZaDogadjaj(dogadjaj);
+    DBBroker.getInstance().obrisiSvePotvrdeZaDogadjaj(dogadjaj);
+
+    if (dogadjaj.getAngazmani() != null) {
+        for (Angazman angazman : dogadjaj.getAngazmani()) {
+            angazman.setDogadjaj(dogadjaj);
+            DBBroker.getInstance().insert(angazman);
         }
+    }
+    if (dogadjaj.getPotvrde() != null) {
+        for (Potvrda potvrda : dogadjaj.getPotvrde()) {
+            potvrda.setDogadjaj(dogadjaj);
+            potvrda.setDatumVreme(LocalDateTime.now()); 
+            DBBroker.getInstance().insert(potvrda);
+        }
+    }
+//        DBBroker.getInstance().update(odo);
+//          Dogadjaj d = (Dogadjaj) odo;
+//        DBBroker.getInstance().delete(d.getAngazmani().get(0));
+//
+//        for (Angazman a : d.getAngazmani()) {
+//            DBBroker.getInstance().insert(a);
+//        }
     }
     
 }

@@ -86,6 +86,11 @@ public class Izvodjac extends OpstiDomenskiObjekat{
         return hash;
     }
 
+    @Override
+    public String toString() {
+        return ime;
+    }
+
 
 
     @Override

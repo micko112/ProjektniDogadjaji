@@ -19,6 +19,16 @@ public class Potvrda extends OpstiDomenskiObjekat{
     Gost gost;
     boolean status;
     LocalDateTime datumVreme;
+
+    public Potvrda() {
+    }
+
+    public Potvrda(Dogadjaj dogadjaj, Gost gost, boolean status, LocalDateTime datumVreme) {
+        this.dogadjaj = dogadjaj;
+        this.gost = gost;
+        this.status = status;
+        this.datumVreme = datumVreme;
+    }
     
     @Override
     public String nazivTabele() {
@@ -92,9 +102,13 @@ public class Potvrda extends OpstiDomenskiObjekat{
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.dogadjaj);
+        hash = 53 * hash + Objects.hashCode(this.gost);
         return hash;
     }
+
+    
 
     @Override
     public boolean equals(Object obj) {

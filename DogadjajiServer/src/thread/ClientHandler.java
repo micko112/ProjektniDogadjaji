@@ -5,7 +5,13 @@
 package thread;
 
 import controller.SController;
+import domain.Angazman;
+import domain.Dogadjaj;
+import domain.Gost;
+import domain.Izvodjac;
 import domain.Korisnik;
+import domain.Lokacija;
+import domain.Potvrda;
 import java.net.Socket;
 import enums.Operation;
 import java.io.ObjectInputStream;
@@ -14,6 +20,7 @@ import java.net.SocketException;
 import transfer.Request;
 import transfer.Response;
 import transfer.ResponseStatus;
+
 /**
  *
  * @author user
@@ -38,7 +45,7 @@ public class ClientHandler extends Thread {
                 out.writeObject(response);
             }
         } catch (SocketException e) {
-            System.out.println("Klijent " + (ulogovaniKorisnik != null ? ulogovaniKorisnik.getEmail(): "") + " se diskonektovao.");
+            System.out.println("Klijent " + (ulogovaniKorisnik != null ? ulogovaniKorisnik.getEmail() : "") + " se diskonektovao.");
         } catch (Exception e) {
             System.out.println("Greska u ClientHandler-u: " + e.getMessage());
             e.printStackTrace();
@@ -46,7 +53,7 @@ public class ClientHandler extends Thread {
             // Logout korisnika ako je bio ulogovan
             if (ulogovaniKorisnik != null) {
                 ThreadServer.ukloniAktivnogKorisnika(ulogovaniKorisnik.getEmail());
-                System.out.println("Korisnik " + ulogovaniKorisnik.getEmail()+ " je odjavljen.");
+                System.out.println("Korisnik " + ulogovaniKorisnik.getEmail() + " je odjavljen.");
             }
             try {
                 socket.close();
@@ -57,80 +64,112 @@ public class ClientHandler extends Thread {
     }
 
     private Response handleRequest(Request request) {
-        Response response = new Response(null, null,ResponseStatus.SUCCESS);
+        Response response = new Response(null, null, ResponseStatus.SUCCESS);
         try {
             Operation operation = request.getOperation();
             System.out.println("Primljena operacija: " + operation); // Za debagovanje
 
             switch (operation) {
-                // --- Korisnik ---
-                case LOGIN:
+                case LOGIN -> {
                     Korisnik zahtevani = (Korisnik) request.getArgument();
                     Korisnik ulogovani = SController.getInstance().login(zahtevani);
-                    
+
                     if (!ThreadServer.dodajAktivnogKorisnika(ulogovani.getEmail())) {
                         throw new Exception("Korisnik je već ulogovan!");
                     }
-                    
+
                     this.ulogovaniKorisnik = ulogovani;
                     response.setResult(ulogovani);
-                    break;
-                case LOGOUT:
+                }
+                case LOGOUT -> {
                     Korisnik zaOdjavu = (Korisnik) request.getArgument();
                     ThreadServer.ukloniAktivnogKorisnika(zaOdjavu.getEmail());
                     this.ulogovaniKorisnik = null;
-                    break;
+                }
+                case KREIRAJ_KORISNIKA ->
+                    SController.getInstance().kreirajKorisnika((Korisnik) request.getArgument());
 
-                // --- Dogadjaj ---
-                case KREIRAJ_DOGADJAJ:
-                    SController.getInstance().kreirajDogadjaj((domain.Dogadjaj) request.getArgument());
-                    break;
-                case PROMENI_DOGADJAJ:
-                    SController.getInstance().izmeniDogadjaj((domain.Dogadjaj) request.getArgument());
-                    break;
-                case OBRISI_DOGADJAJ:
-                    SController.getInstance().obrisiDogadjaj((domain.Dogadjaj) request.getArgument());
-                    break;
-                case VRATI_SVE_DOGADJAJE:
-                    response.setResult((SController.getInstance().vratiListuDogadjaja()));
-                    break;
-                case PRONADJI_DOGADJAJE:
-                    response.setResult((SController.getInstance().pronadjiDogadjaje((domain.Dogadjaj) request.getArgument())));
-                    break;
+                case IZMENI_KORISNIKA ->
+                    SController.getInstance().izmeniKorisnika((Korisnik) request.getArgument());
 
-                // --- Gost ---
-                case KREIRAJ_GOSTA:
-                    SController.getInstance().kreirajGosta((domain.Gost) request.getArgument());
-                    break;
-                case PROMENI_GOSTA:
-                    SController.getInstance().izmeniGosta((domain.Gost) request.getArgument());
-                    break;
-                case OBRISI_GOSTA:
-                    SController.getInstance().obrisiGosta((domain.Gost) request.getArgument());
-                    break;
-                case VRATI_SVE_GOSTE:
-                    response.setResult((SController.getInstance().vratiListuGostiju()));
-                    break;
-                
-                // --- Izvodjac ---
-                // ...ista logika kao za Gosta...
-                
-                // --- Lokacija ---
-                case VRATI_SVE_LOKACIJE:
-                    response.setResult((SController.getInstance().vratiListuLokacija()));
-                    break;
-                
-                // --- Liste za Dogadjaj ---
-                case VRATI_ANGAZMANE_ZA_DOGADJAJ:
-                    response.setResult((SController.getInstance().vratiAngazmaneZaDogadjaj((domain.Dogadjaj) request.getArgument())));
-                    break;
-                case VRATI_POTVRDE_ZA_DOGADJAJ:
-                    response.setResult(SController.getInstance().vratiPotvrdeZaDogadjaj((domain.Dogadjaj) request.getArgument()));
-                    break;
+                case OBRISI_KORISNIKA ->
+                    SController.getInstance().obrisiKorisnika((Korisnik) request.getArgument());
+
+                case KREIRAJ_DOGADJAJ ->
+                    SController.getInstance().kreirajDogadjaj((Dogadjaj) request.getArgument());
+
+                case VRATI_SVE_KORISNIKE ->
+                    response.setResult((SController.getInstance().vratiListuKorisnika()));
                     
-                default:
+                case IZMENI_DOGADJAJ ->
+                    SController.getInstance().izmeniDogadjaj((Dogadjaj) request.getArgument());
+
+                case OBRISI_DOGADJAJ ->
+                    SController.getInstance().obrisiDogadjaj((Dogadjaj) request.getArgument());
+
+                case VRATI_SVE_DOGADJAJE ->
+                    response.setResult((SController.getInstance().vratiListuDogadjaja()));
+
+                case KREIRAJ_GOSTA ->
+                    SController.getInstance().kreirajGosta((Gost) request.getArgument());
+
+                case IZMENI_GOSTA ->
+                    SController.getInstance().izmeniGosta((Gost) request.getArgument());
+
+                case OBRISI_GOSTA ->
+                    SController.getInstance().obrisiGosta((Gost) request.getArgument());
+
+                case VRATI_SVE_GOSTE ->
+                    response.setResult((SController.getInstance().vratiListuGostiju()));
+                case PRONADJI_GOSTE ->
+                        response.setResult(SController.getInstance().pronadjiGoste((Gost) request.getArgument()));
+
+                case KREIRAJ_IZVODJACA ->
+                    SController.getInstance().kreirajIzvodjaca((Izvodjac) request.getArgument());
+
+                case IZMENI_IZVODJACA ->
+                    SController.getInstance().izmeniIzvodjaca((Izvodjac) request.getArgument());
+
+                case OBRISI_IZVODJACA ->
+                    SController.getInstance().obrisiIzvodjaca((Izvodjac) request.getArgument());
+
+                case VRATI_SVE_IZVODJACE ->
+                    response.setResult((SController.getInstance().vratiListuIzvodjaca()));
+
+                case KREIRAJ_LOKACIJU ->
+                    SController.getInstance().kreirajLokaciju((Lokacija) request.getArgument());
+
+                case IZMENI_LOKACIJU ->
+                    SController.getInstance().izmeniLokaciju((Lokacija) request.getArgument());
+
+                case OBRISI_LOKACIJU ->
+                    SController.getInstance().obrisiLokaciju((Lokacija) request.getArgument());
+
+                case VRATI_SVE_LOKACIJE ->
+                    response.setResult((SController.getInstance().vratiListuLokacija()));
+
+                case VRATI_ANGAZMANE_ZA_DOGADJAJ -> {
+                    // 1. Primi filter objekat
+                    Angazman angazmanFilter = (Angazman) request.getArgument();
+                    // 2. Izvuci Dogadjaj iz njega
+                    Dogadjaj dogadjajZaPretragu = angazmanFilter.getDogadjaj();
+                    // 3. Prosledi Dogadjaj u SController
+                    response.setResult(SController.getInstance().vratiAngazmaneZaDogadjaj(dogadjajZaPretragu));
+                    //response.setResult((SController.getInstance().vratiAngazmaneZaDogadjaj((Dogadjaj) request.getArgument())));
+                }
+                case VRATI_POTVRDE_ZA_DOGADJAJ -> {
+                    Potvrda potvrdaFilter = (Potvrda) request.getArgument();
+                    Dogadjaj dogadjajZaPretragu = potvrdaFilter.getDogadjaj();
+                    response.setResult(SController.getInstance().vratiPotvrdeZaDogadjaj(dogadjajZaPretragu));
+                }
+                default ->
                     throw new Exception("Nepoznata operacija: " + operation);
             }
+            // --- Korisnik ---
+            // --- Dogadjaj ---
+            // --- Gost ---
+            // --- Lokacija ---
+            // --- Liste za Dogadjaj ---
         } catch (Exception e) {
             response.setResponseStatus(ResponseStatus.ERROR);
             response.setException(e);

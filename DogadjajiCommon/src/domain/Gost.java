@@ -7,12 +7,14 @@ package domain;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
  * @author user
  */
-public class Gost extends OpstiDomenskiObjekat{
+public class Gost extends OpstiDomenskiObjekat {
+
     int gostId;
     String ime;
     String prezime;
@@ -28,11 +30,10 @@ public class Gost extends OpstiDomenskiObjekat{
         this.telefon = telefon;
     }
 
-
-
     @Override
     public int hashCode() {
-        int hash = 4;
+        int hash = 7;
+        hash = 53 * hash + this.gostId;
         return hash;
     }
 
@@ -53,7 +54,7 @@ public class Gost extends OpstiDomenskiObjekat{
 
     @Override
     public String nazivTabele() {
-       return "gost";
+        return "gost";
     }
 
     @Override
@@ -63,12 +64,12 @@ public class Gost extends OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-       return "";
+        return "";
     }
 
     @Override
     public ArrayList<OpstiDomenskiObjekat> vratiListu(ResultSet rs) throws SQLException {
-           ArrayList<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        ArrayList<OpstiDomenskiObjekat> lista = new ArrayList<>();
         while (rs.next()) {
             Gost g = new Gost();
             g.setGostId(rs.getInt("g.gostId"));
@@ -103,10 +104,10 @@ public class Gost extends OpstiDomenskiObjekat{
 
     @Override
     public String uslov() {
-//        if (prezime != null && !prezime.isEmpty()) {
-//            return "WHERE prezime LIKE '" + prezime + "%'";
-//        }
-       return "";
+        if (prezime != null && !prezime.isEmpty()) {
+            return "WHERE g.prezime LIKE '" + prezime + "%'";
+        }
+        return "";
     }
 
     @Override
@@ -145,5 +146,5 @@ public class Gost extends OpstiDomenskiObjekat{
     public void setTelefon(String telefon) {
         this.telefon = telefon;
     }
-    
+
 }

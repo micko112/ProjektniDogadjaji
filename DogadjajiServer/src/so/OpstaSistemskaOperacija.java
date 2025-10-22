@@ -26,7 +26,7 @@ public abstract class OpstaSistemskaOperacija {
         }
     }
 
-    // Apstraktne metode koje konkretne SO moraju da implementiraju
+  
     
     
     private void commit() throws Exception {

@@ -24,7 +24,7 @@ public class SOVratiListuAngazmana extends OpstaSistemskaOperacija {
 
     @Override
     protected void validate(OpstiDomenskiObjekat odo) throws Exception {
-        if (!(odo instanceof Dogadjaj)) {
+        if (!(odo instanceof Angazman)) {
             throw new Exception("Prosledjeni objekat nije instanca klase Angazman!");
         }
     }

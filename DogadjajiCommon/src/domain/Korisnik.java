@@ -73,7 +73,7 @@ public class Korisnik extends OpstiDomenskiObjekat {
 
     @Override
     public String vrednostiZaInsert() {
-        return "''" + ime + "', '" + prezime + "', '" + email + "', '" + lozinka + "''";
+        return "'" + ime + "', '" + prezime + "', '" + email + "', '" + lozinka + "'";
 
     }
 
@@ -84,6 +84,9 @@ public class Korisnik extends OpstiDomenskiObjekat {
 
     @Override
     public String uslov() {
+        if (email != null && !email.isEmpty()) {
+        return "WHERE email = '" + email + "'";
+    }
         return "";
     }
 

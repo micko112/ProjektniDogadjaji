@@ -77,4 +77,13 @@ public class ThreadServer extends Thread {
     public static Set<String> getAktivniKorisnici() {
         return aktivniKorisnici;
     }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public void setServerSocket(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+    
 }

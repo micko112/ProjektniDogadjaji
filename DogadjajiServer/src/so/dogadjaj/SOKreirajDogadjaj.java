@@ -10,6 +10,7 @@ import domain.Angazman;
 import domain.Dogadjaj;
 import domain.Gost;
 import domain.OpstiDomenskiObjekat;
+import domain.Potvrda;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import so.OpstaSistemskaOperacija;
@@ -41,10 +42,19 @@ public class SOKreirajDogadjaj extends OpstaSistemskaOperacija {
             int dogId = keys.getInt(1);
             System.out.println("Kljuc dogadjaja je: " + dogId);
             dogadjaj.setDogadjajId(dogId);
+            
             for (Angazman angazman : dogadjaj.getAngazmani()) {
                 angazman.setDogadjaj(dogadjaj);
                 DBBroker.getInstance().insert(angazman);
             }
+            
+            if (dogadjaj.getPotvrde() != null && !dogadjaj.getPotvrde().isEmpty()) {
+            System.out.println("Pronadjeno " + dogadjaj.getPotvrde().size() + " potvrda za upis."); // Debugging poruka
+            for (Potvrda potvrda : dogadjaj.getPotvrde()) {
+                potvrda.setDogadjaj(dogadjaj); 
+                DBBroker.getInstance().insert(potvrda);
+            }
+        }
         } catch (Exception e) {
             System.err.println("GRESKA U INSERT Otpremnica: " + e.getMessage());
             throw e;

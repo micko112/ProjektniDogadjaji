@@ -65,7 +65,7 @@ public class Angazman extends OpstiDomenskiObjekat{
 
     @Override
     public String koloneZaInsert() {
-        return "(dogadjaj, izvodjac, trajanjeNastupa)";
+        return "(dogadjajId, izvodjacId, trajanjeNastupa)";
     }
 
     @Override
@@ -85,10 +85,11 @@ public class Angazman extends OpstiDomenskiObjekat{
 
     @Override
     public String uslov() {
-//        if (dogadjaj != null) {
-//            return "WHERE a.dogadjajid = " + dogadjaj.getDogadjajid();
-//        }
-        return "";
+if (dogadjaj != null && dogadjaj.getDogadjajId() > 0) {
+        return "WHERE a.dogadjajId = " + dogadjaj.getDogadjajId();
+    }
+    return "";
+        
     }
 
     @Override

@@ -7,6 +7,7 @@ package so.korisnik;
 import so.gost.*;
 import dbb.DBBroker;
 import domain.Gost;
+import domain.Korisnik;
 import domain.OpstiDomenskiObjekat;
 import java.util.ArrayList;
 import so.OpstaSistemskaOperacija;
@@ -17,25 +18,25 @@ import so.OpstaSistemskaOperacija;
  */
 public class SOVratiListuKorisnika extends OpstaSistemskaOperacija {
 
-    ArrayList<Gost> list;
+    ArrayList<Korisnik> list;
 
     @Override
     protected void validate(OpstiDomenskiObjekat odo) throws Exception {
-        if (!(odo instanceof Gost)) {
-            throw new Exception("Prosledjeni objekat nije instanca klase Gost!");
+        if (!(odo instanceof Korisnik)) {
+            throw new Exception("Prosledjeni objekat nije instanca klase Korisnik!");
         }
     }
 
     @Override
     protected void execute(OpstiDomenskiObjekat odo) throws Exception {
-        list = (ArrayList< Gost>) (ArrayList< ?>) DBBroker.getInstance().select(odo);
+        list = (ArrayList< Korisnik>) (ArrayList< ?>) DBBroker.getInstance().select(odo);
     }
     
-    public ArrayList<Gost> getList() {
+    public ArrayList<Korisnik> getList() {
         return list;
     }
     
-    public void setList(ArrayList<Gost> list) {
+    public void setList(ArrayList<Korisnik> list) {
         this.list = list;
     }
 

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dbb;
+import domain.Dogadjaj;
 import domain.Korisnik;
 import domain.OpstiDomenskiObjekat;
 import java.sql.Connection;
@@ -29,18 +30,25 @@ public class DBBroker {
     private Connection connection;
     
     private DBBroker() throws SQLException, IOException{
+        try{
         try {
             Properties properties = new Properties();
             properties.load(new FileInputStream("dbconfiguration.properties"));
+            
             String url = properties.getProperty("url");
             String username = properties.getProperty("username");
             String password = properties.getProperty("password");
+            
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Konekcija sa bazom podataka uspesno uspostavljena!");
+            
             connection.setAutoCommit(false);
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } 
+        updatePasswordsToHashed();
+        }catch (SQLException ex) {
             System.err.println("Greska! Konekcija sa bazom nije uspesno uspostavljena!\n" + ex.getMessage());
             throw ex; 
         }
@@ -110,7 +118,19 @@ public class DBBroker {
             throw ex;
         }
     }
+public void obrisiSveAngazmaneZaDogadjaj(Dogadjaj dogadjaj) throws SQLException {
+    String upit = "DELETE FROM angazman WHERE dogadjajId = " + dogadjaj.getDogadjajId();
+    Statement s = connection.createStatement();
+    s.executeUpdate(upit);
+    s.close();
+}
 
+public void obrisiSvePotvrdeZaDogadjaj(Dogadjaj dogadjaj) throws SQLException {
+    String upit = "DELETE FROM potvrda WHERE dogadjajId = " + dogadjaj.getDogadjajId();
+    Statement s = connection.createStatement();
+    s.executeUpdate(upit);
+    s.close();
+}
  // --- Dodatne metode iz tvog primera ---
     // (Integrisane su u generičke select/update metode, ali ostavljam ih kao reference
     // ako ti trebaju za specifične scenarije, mada je bolje koristiti generičke)
@@ -119,26 +139,26 @@ public class DBBroker {
     private void updatePasswordsToHashed() throws SQLException {
         String query = "SELECT korisnikId, lozinka FROM korisnik";
         System.out.println(query);
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        Statement s = connection.createStatement();
+        ResultSet rs = s.executeQuery(query);
 
         while (rs.next()) {
             int id = rs.getInt("korisnikId");
             String plainPassword = rs.getString("lozinka");
-            // Pretpostavka: heširana lozinka ima fiksnu dužinu, npr. 64 za SHA-256
+
             if (plainPassword.length() != 64) { 
                 String hashedPassword = PasswordHash.hashPassword(plainPassword);
 
-                String updateQuery = "UPDATE korisnik SET lozinka=? WHERE korisnikId=?";
-                PreparedStatement ps = connection.prepareStatement(updateQuery);
+                String updateUpit = "UPDATE korisnik SET lozinka=? WHERE korisnikId=?";
+                PreparedStatement ps = connection.prepareStatement(updateUpit);
                 ps.setString(1, hashedPassword);
                 ps.setInt(2, id);
                 ps.executeUpdate();
             }
         }
-        commit(); // Potvrdi promene lozinki
+        commit(); 
         rs.close();
-        stmt.close();
+        s.close();
     }
 
     // Ažuriranje nove lozinke (ako je uneta)
@@ -150,28 +170,16 @@ public class DBBroker {
         
         if (result.isEmpty()) {
             throw new Exception("Korisnik za izmenu ne postoji.");
-        }
-        
+        }   
         postojeciKorisnik = (Korisnik) result.get(0);
-        
-        // Proveravamo da li je nova lozinka već heširana (dužina 64)
-        // ili se razlikuje od postojeće heširane.
-        // Ako je korisnik unio plain text, hashuj ga.
-        // Ako je korisnik prosledio već heširanu lozinku (npr. iz nekog UI elementa koji ne prima lozinke),
-        // i ako se razlikuje od postojeće, hashuj.
-        // Ovo je tricky, jer ako GUI ne dobija lozinku nazad, onda ce uvek biti plain text.
-        
         String novaLozinkaZaUpis = korisnikChange.getLozinka();
-        
-        // Pretpostavka da je uneta lozinka plain text, ako nije već heširana (dužina npr. 64)
+
         if (novaLozinkaZaUpis.length() != 64 || !novaLozinkaZaUpis.equals(postojeciKorisnik.getLozinka())) {
             novaLozinkaZaUpis = PasswordHash.hashPassword(novaLozinkaZaUpis);
         }
-        
-        // Postavi heširanu lozinku u objekat za update
+
         korisnikChange.setLozinka(novaLozinkaZaUpis);
-        
-        // Zatim pozovi generički update
+
         update(korisnikChange);
         commit();
     }

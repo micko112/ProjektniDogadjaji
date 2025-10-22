@@ -20,10 +20,20 @@ import so.dogadjaj.SOVratiListuDogadjaja;
 import so.gost.SOIzmeniGosta;
 import so.gost.SOKreirajGosta;
 import so.gost.SOObrisiGosta;
+import so.gost.SOPronadjiGoste;
 import so.gost.SOVratiListuGostiju;
+import so.izvodjac.SOIzmeniIzvodjaca;
 import so.izvodjac.SOKreirajIzvodjaca;
+import so.izvodjac.SOObrisiIzvodjaca;
 import so.izvodjac.SOVratiListuIzvodjaca;
+import so.korisnik.SOIzmeniKorisnika;
+import so.korisnik.SOKreirajKorisnika;
+import so.korisnik.SOObrisiKorisnika;
 import so.korisnik.SOPrijaviKorisnika;
+import so.korisnik.SOVratiListuKorisnika;
+import so.lokacija.SOIzmeniLokaciju;
+import so.lokacija.SOKreirajLokaciju;
+import so.lokacija.SOObrisiLokaciju;
 import so.lokacija.SOVratiListuLokacija;
 import so.potvrda.SOVratiListuPotvrda;
 import validator.PasswordHash;
@@ -48,10 +58,26 @@ public class SController {
     public Korisnik login(Korisnik korisnik) throws Exception {
 
         SOPrijaviKorisnika so = new SOPrijaviKorisnika();
-        String hash = PasswordHash.hashPassword(korisnik.getLozinka());
-        korisnik.setLozinka(hash);
+//        String hash = PasswordHash.hashPassword(korisnik.getLozinka());
+//        korisnik.setLozinka(hash);
         so.templateExecute(korisnik);
         return so.getUlogovaniKorisnik();
+    }
+    public void kreirajKorisnika(Korisnik korisnik) throws Exception {
+        (new SOKreirajKorisnika()).templateExecute(korisnik);
+    }
+    
+    public void izmeniKorisnika(Korisnik korisnik) throws Exception {
+        (new SOIzmeniKorisnika()).templateExecute(korisnik);
+    }
+    
+    public void obrisiKorisnika(Korisnik korisnik) throws Exception {
+        (new SOObrisiKorisnika()).templateExecute(korisnik);
+    }
+    public ArrayList<Korisnik> vratiListuKorisnika() throws Exception {
+        SOVratiListuKorisnika so = new SOVratiListuKorisnika();
+        so.templateExecute(new Korisnik()); 
+        return so.getList();
     }
 
     // --- Dogadjaj operacije ---
@@ -91,12 +117,23 @@ public class SController {
         so.templateExecute(new Gost());
         return so.getList();
     }
+    public ArrayList<Gost> pronadjiGoste(Gost kriterijum) throws Exception {
+    SOPronadjiGoste so = new SOPronadjiGoste();
+    so.templateExecute(kriterijum);
+    return so.getLista();
+}
 
     // --- Izvodjac operacije ---
     public void kreirajIzvodjaca(Izvodjac izvodjac) throws Exception {
         (new SOKreirajIzvodjaca()).templateExecute(izvodjac);
     }
+    public void izmeniIzvodjaca(Izvodjac izvodjac) throws Exception {
+        (new SOIzmeniIzvodjaca()).templateExecute(izvodjac);
+    }
 
+    public void obrisiIzvodjaca(Izvodjac izvodjac) throws Exception {
+        (new SOObrisiIzvodjaca()).templateExecute(izvodjac);
+    }
     public ArrayList<Izvodjac> vratiListuIzvodjaca() throws Exception {
         SOVratiListuIzvodjaca so = new SOVratiListuIzvodjaca();
         so.templateExecute(new Izvodjac());
@@ -104,27 +141,38 @@ public class SController {
     }
 
     // --- Lokacija operacije ---
+        public void kreirajLokaciju(Lokacija lokacija) throws Exception {
+        (new SOKreirajLokaciju()).templateExecute(lokacija);
+    }
+    public void izmeniLokaciju(Lokacija lokacija) throws Exception {
+        (new SOIzmeniLokaciju()).templateExecute(lokacija);
+    }
+
+    public void obrisiLokaciju(Lokacija lokacija) throws Exception {
+        (new SOObrisiLokaciju()).templateExecute(lokacija);
+    }
     public ArrayList<Lokacija> vratiListuLokacija() throws Exception {
         SOVratiListuLokacija so = new SOVratiListuLokacija();
         so.templateExecute(new Lokacija());
         return so.getList();
     }
+    
 
     // --- Specifične operacije za liste (Angazman, Potvrda) ---
     public ArrayList<Angazman> vratiAngazmaneZaDogadjaj(Dogadjaj dogadjaj) throws Exception {
         SOVratiListuAngazmana so = new SOVratiListuAngazmana();
 
-        Angazman angazman = new Angazman();
-        angazman.setDogadjaj(dogadjaj);
-        so.templateExecute(angazman);
+        Angazman kriterijum = new Angazman();
+        kriterijum.setDogadjaj(dogadjaj);
+        so.templateExecute(kriterijum);   
         return so.getList();
     }
     
     public ArrayList<Potvrda> vratiPotvrdeZaDogadjaj(Dogadjaj dogadjaj) throws Exception {
         SOVratiListuPotvrda so = new SOVratiListuPotvrda();
-        Potvrda potvrda = new Potvrda();
-        potvrda.setDogadjaj(dogadjaj);
-        so.templateExecute(potvrda);
+        Potvrda kriterijum = new Potvrda();
+        kriterijum.setDogadjaj(dogadjaj);
+        so.templateExecute(kriterijum);
         return so.getList();
     }
 }

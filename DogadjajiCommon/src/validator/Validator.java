@@ -19,10 +19,10 @@ import java.time.LocalDateTime;
 public class Validator {
 
     // Regularni izrazi (Regex) za proveru formata
-    private static final String NAME_REGEX = "^[a-zA-ZČčĆćŽžŠšĐđ ]{2,}$"; // Imena i prezimena, min 2 karaktera
+    private static final String NAME_REGEX = "^[a-zA-ZČčĆćŽžŠšĐđ ]{2,}$"; 
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-    private static final String PHONE_REGEX = "^\\+?[0-9\\s\\-/()]{6,}$"; // Telefon, min 6 cifara, dozvoljava razmake, crtice...
-    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final String PHONE_REGEX = "^\\+?[0-9\\s\\-/()]{6,}$"; 
+    private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
     
     
     // --- Korisnik validacija ---
@@ -40,15 +40,20 @@ public class Validator {
         if (korisnik.getEmail() == null || !korisnik.getEmail().matches(EMAIL_REGEX)) {
             throw new Exception("Email korisnika nije u ispravnom formatu.");
         }
+         if (korisnik.getLozinka() == null || !korisnik.getLozinka().matches(PASSWORD_REGEX)) {
+            throw new Exception("Lozinka za prijavu ne sme biti prazna.");
+        }
     }
     
     public static void validateKorisnikLogin(Korisnik korisnik) throws Exception {
         if (korisnik.getEmail() == null || korisnik.getEmail().trim().isEmpty()) {
             throw new Exception("Email za prijavu ne sme biti prazan.");
         }
-        if (korisnik.getLozinka() == null || korisnik.getLozinka().isEmpty()) {
+        if (korisnik.getLozinka() == null || !korisnik.getLozinka().matches(PASSWORD_REGEX)) {
             throw new Exception("Lozinka za prijavu ne sme biti prazna.");
         }
+        
+         
     }
     
     // --- Gost validacija ---
