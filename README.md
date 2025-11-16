@@ -1,3 +1,70 @@
+🎉 Event Management System (Java Desktop + Server)
+
+A desktop-based event planning and management system built in Java, following a three-tier architecture.
+The app allows organizers to create events, manage guests, performers, locations, and confirmation statuses.
+
+🚀 Features
+✔️ Event Management
+
+Create, edit, delete events
+
+Select location, date, type
+
+Assign performers
+
+Add guests
+
+Track confirmations
+
+✔️ Guest Management
+
+Add guests
+
+Update guest info
+
+Delete guests
+
+Search by criteria
+
+✔️ Performer & Location Management
+
+CRUD for performers
+
+CRUD for locations
+
+✔️ Authentication
+
+Login with username and password
+
+🖼️ Screenshots
+![Login](images/login.png)
+![Dashboard](images/dashboard.png)
+
+(Add your own images folder)
+
+🛠️ Tech Stack
+
+Java (Swing)
+
+Java Socket Server
+
+MySQL
+
+MVC + Three-layer architecture
+
+🔌 Running the Project
+
+1. Run Server
+   java -jar Server.jar
+
+2. Run Client
+   java -jar Client.jar
+
+📄 Author
+
+Dimitrije Mitić
+Faculty of Organizational Sciences (FON)
+
 Event Management System in Java
 
 A desktop-based event planning and management system built in Java, following a three-tier architecture and developed using the principles of the simplified Larman methodology.
