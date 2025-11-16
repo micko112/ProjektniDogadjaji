@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Event Management System in Java
 
 A desktop-based event planning and management system built in Java, following a three-tier architecture and the simplified Larman methodology.
